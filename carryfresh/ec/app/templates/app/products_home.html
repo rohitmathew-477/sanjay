@@ -1,0 +1,21 @@
+{% load static %}
+<section id="popular-product">
+    <div class="product-heading">
+      <h3>Popular Product</h3>
+      <a href="{% url 'app:all_products' %}">All</a>
+    </div>
+   
+     <div class ="product-container">
+      {% for product in products  %}
+      <div class="product-box">
+        <a href="{{product.get_url}}"> <img src="{{product.images.url}}" alt="apple" /></a>
+       <a href="{{product.get_url}}"> <strong>{{product.product_name}}</strong></a>
+        <span class="quantity">1  {{product.unit}} </span> 
+        <a href="{{product.get_url}}"> <span class="price">₹ {{product.price}}</span></a>
+        
+       
+      </div>
+      {% endfor %}
+    </div>
+  
+  </section>

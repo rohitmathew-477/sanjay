@@ -1,0 +1,124 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+{% include "app/slider.html" %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Increase the font size and make the text italic */
+    p {
+      font-size: 20px;
+      font-style: italic;
+    }
+    
+    /* Vertically center the text within the <p> element */
+    .center-text {
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Add a gap between vertical cards */
+    .vertical-card {
+      margin-bottom: 20px;
+
+      
+    }
+    
+    /* Add hover effect on the cards */
+    .vertical-card:hover {
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+      transform: scale(1.05);
+      transition: 0.3s;
+    }
+    .service-image {
+      width: 350px; /* Set the desired width */
+      height: 170px; /* Set the desired height */
+      object-fit: cover; /* This helps maintain the aspect ratio */
+    }
+    .custom-p {
+      font-size: 18px;
+      font-style: normal;
+    }
+    
+  </style>
+</head>
+  
+  <section id="about">
+    <div class="about-heading">
+      <h3>About Us</h3>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Logo on the left side with increased size -->
+          <img src="{% static 'images/cflogo.png' %}" alt="" style="width: 80%;">
+        </div>
+        <div class="col-md-6">
+          <!-- Description on the right side -->
+          <p class="center-text">
+            Carryfresh hypermart is formed around a concept to deliver fresh and unique products to our customers. We offer a wide range of products in grocery, crockery, vegetables, and more. Apart from the products, we also keep a fresh perspective on customer relationship and satisfaction. We believe in keeping a constant connection with our customer to deliver personalized products and services. That solemnly drives our employees to deliver a satisfying service. We do keep our goods fresh, so do a relationship with you. As a hypermart, we constantly update our goods and services to meet your demands. It assures that you would find anything you search for.
+          </p>
+        </div>
+      </div>
+      
+      
+  </section>
+  <section id="service">
+  <div class="container">
+  <h3>Our Services</h3>
+      <div class="row">
+        
+        <div class="col-md-4 vertical-card">
+          <div class="card">
+            <img class="card-img-top service-image" src="{% static "images/service1.jpeg" %}" alt="Service 1">
+            <div class="card-body">
+              <h5 class="card-title">Grocery Delivery Service</h5>
+              <p class="card-text custom-p">We offer a convenient grocery delivery service, ensuring that your essentials are delivered right to your doorstep. Say goodbye to the hassle of shopping and enjoy fresh groceries with just a few clicks.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 vertical-card">
+          <div class="card">
+            <img class="card-img-top service-image" src="{% static "images/service2.jpeg" %}" alt="Service 1">
+            <div class="card-body">
+              <h5 class="card-title">Personal Care Items</h5>
+              <p class="card-text custom-p">Pamper yourself with our selection of personal care items, including skincare, haircare, and grooming products. Look and feel your best with our quality offerings.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 vertical-card">
+          <div class="card">
+            <img class="card-img-top service-image" src="{% static "images/service5.jpeg" %}" alt="Service 4">
+            <div class="card-body">
+              <h5 class="card-title">Fresh Produce Selection</h5>
+              <p class="card-text custom-p">Explore our wide range of fresh produce, including fruits, vegetables, and organic options. We source the finest quality items to provide you with the best and healthiest choices.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 vertical-card">
+          <div class="card">
+            <img class="card-img-top service-image" src="{% static "images/service3.jpeg" %}" alt="Service 1">
+            <div class="card-body">
+              <h5 class="card-title">Specialty Foods</h5>
+              <p class="card-text custom-p">Indulge in a world of flavors with our specialty foods. From international cuisines to gourmet treats, our collection of specialty items will delight your taste buds.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 vertical-card">
+          <div class="card">
+            <img class="card-img-top service-image" src="{% static "images/service4.jpeg" %}" alt="Service 1">
+            <div class="card-body">
+              <h5 class="card-title">Customer Support</h5>
+              <p class="card-text custom-p">We take pride in our exceptional customer support. Our dedicated team is here to assist you with any questions or concerns, ensuring a seamless shopping experience.</p>
+            </div>
+          </div>
+        </div>
+        
+                                        
+      </div>
+    </div>
+  </section>
+{% endblock %}

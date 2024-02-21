@@ -1,0 +1,66 @@
+{% extends "app/base.html" %} 
+{% load static %}
+{% block content %}
+<head>
+    
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');body{background-color: #eeeeee;font-family: 'Open Sans',serif;font-size: 14px}.container-fluid{margin-top:70px}.card-body{-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.40rem}.img-sm{width: 80px;height: 80px}.itemside .info{padding-left: 15px;padding-right: 7px}.table-shopping-cart .price-wrap{line-height: 1.2}.table-shopping-cart .price{font-weight: bold;margin-right: 5px;display: block}.text-muted{color: #969696 !important}a{text-decoration: none !important}.card{position: relative;display: -ms-flexbox;display: flex;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0,0,0,.125);border-radius: 0px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.dlist-align{display: -webkit-box;display: -ms-flexbox;display: flex}[class*="dlist-"]{margin-bottom: 5px}.coupon{border-radius: 1px}.price{font-weight: 600;color: #212529}.btn.btn-out{outline: 1px solid #fff;outline-offset: -5px}.btn-main{border-radius: 2px;text-transform: capitalize;font-size: 15px;padding: 10px 19px;cursor: pointer;color: #fff;width: 100%}.btn-light{color: #ffffff;background-color: #F44336;border-color: #f8f9fa;font-size: 12px}.btn-light:hover{color: #ffffff;background-color: #F44336;border-color: #F44336}.btn-apply{font-size: 11px}
+      
+      .alert-error {
+        /* Styles similar to Bootstrap's alert-danger class */
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+  </style>
+      
+<section class="section-conten padding-y" style="min-height:84vh">
+  {% if request.GET.command == 'verification' %}
+  <div class="container mx-auto alert alert-info text-center" role="alert" style="max-width: 1024px; margin-top:100px;">
+    Thank you for registering with us. We have sent you a verification email to your email address [{{ request.GET.email}}] <br><br>
+    Already verified? <a href="{% url 'login' %}">Login</a> 
+  </div>
+
+
+
+
+{% else %}
+  <!-- ============================ COMPONENT LOGIN   ================================= -->
+    <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+        <div class="card-body">
+          
+        <h4 class="card-title mb-4">Log In</h4>
+        {% include "app/alerts.html" %}
+        <form action={% url "login" %} method="POST">
+          {% csrf_token %}
+            <div class="form-group">
+         <input type="email" class="form-control" placeholder="Email Address" name="email">
+            </div> <!-- form-group// -->
+            <div class="form-group">
+        <input type="password" class="form-control" placeholder="Password" name="password">
+            </div> <!-- form-group// -->
+            
+            <div class="form-group">
+              <a href="{% url "forgotPassword" %}" class="float-right">Forgot password?</a> 
+             
+            </div> <!-- form-group form-check .// -->
+            <br><br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+            </div> <!-- form-group// -->    
+        </form>
+        </div> <!-- card-body.// -->
+      </div> <!-- card .// -->
+  
+       <p class="text-center mt-4">Don't have account? <a href="{% url "signup" %}">Sign up</a></p>
+       <br><br>
+  <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+  
+  {% endif %}
+  </section>
+
+  {% endblock %}

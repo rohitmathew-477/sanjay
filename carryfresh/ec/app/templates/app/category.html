@@ -1,0 +1,17 @@
+{% load static %}
+<section id="category">
+    <div class="category-heading">
+      <h2>Category</h2>
+      <a href=""> <span>All</span></a>
+    </div>
+    
+    <div class="category-container">
+      {% for category in links %}
+      <a href="{{category.get_url}}" class="category-box">
+        <img src="{{category.photo.url}}" alt="Fish" />
+        <span>{{category.category_name}}</span>
+      </a>
+      {% endfor %}
+    </div>
+    
+  </section>

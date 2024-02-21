@@ -1,0 +1,192 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');body{background-color: #eeeeee;font-family: 'Open Sans',serif;font-size: 14px}.container-fluid{margin-top:70px}.card-body{-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.40rem}.img-sm{width: 80px;height: 80px}.itemside .info{padding-left: 15px;padding-right: 7px}.table-shopping-cart .price-wrap{line-height: 1.2}.table-shopping-cart .price{font-weight: bold;margin-right: 5px;display: block}.text-muted{color: #969696 !important}a{text-decoration: none !important}.card{position: relative;display: -ms-flexbox;display: flex;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0,0,0,.125);border-radius: 0px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.dlist-align{display: -webkit-box;display: -ms-flexbox;display: flex}[class*="dlist-"]{margin-bottom: 5px}.coupon{border-radius: 1px}.price{font-weight: 600;color: #212529}.btn.btn-out{outline: 1px solid #fff;outline-offset: -5px}.btn-main{border-radius: 2px;text-transform: capitalize;font-size: 15px;padding: 10px 19px;cursor: pointer;color: #fff;width: 100%}.btn-light{color: #ffffff;background-color: #F44336;border-color: #f8f9fa;font-size: 12px}.btn-light:hover{color: #ffffff;background-color: #F44336;border-color: #F44336}.btn-apply{font-size: 11px}
+        
+    </style>
+    <style>
+        /* Add your button styles */
+        .razorpay-button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Add any additional styles as needed */
+    </style>
+</head>
+
+
+<div class="container my-5">
+    <h1 style="text-align: center;" class="fw-bold m-5">Review Your Order and Make Payment</h1>
+<!--{% static "images/apple.png" %}-->
+    <!-- Messages -->
+    <div class="container-fluid">
+        
+        <div class="row">
+            <aside class="col-lg-8">
+                <div class="card">
+                    <h5 class="card-header">Billing Address</h5>
+                    <div class="card-body">
+                      
+                      <p class="card-text mb-0"> {{order.full_name}} </p>
+                      <p class="card-text mb-0"> {{order.full_address}} </p>
+                      <p class="card-text mb-0"> {{order.town}} </p>
+                      <p class="card-text mb-0"> {{order.city}},{{order.state}} </p>
+                      
+                      <p class="card-text mb-0"> {{order.phone}} </p>
+                      <p class="card-text mb-0"> {{order.email}} </p>
+                      
+                    </div>
+                  </div>
+                  <div class="card">
+                    <h5 class="card-header">Payment Method</h5>
+                    <div class="card-body">
+                      
+                      <p class="card-text">RazorPay</p>
+                      
+                    </div>
+                  </div>
+                  <div class="card">
+                    <h5 class="card-header">Review Products</h5>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-shopping-cart">
+                                <thead class="text-muted">
+                                    <tr class="small text-uppercase">
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cart_item in cart_items %}
+                                    <tr>
+                                        <td>
+                                            <figure class="itemside align-items-center">
+                                                <div class="aside"><img src="{{cart_item.product.images.url}}" class="img-sm"></div>
+                                                <figcaption class="info"> <a href="{{cart_item.product.get_url}}" class="title text-dark" data-abc="true">{{cart_item.product.product_name}}</a>
+                                                    
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            {{cart_item.quantity}}
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap"> <var class="price">₹{{cart_item.sub_total}} </var> <small class="text-muted"> ₹{{cart_item.product.price}} Rs per {{cart_item.product.unit}} </small> </div>
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </form>
+                    </div>
+
+                </div>
+            </aside>
+            <aside class="col-lg-4">
+                
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Total price:</dt>
+                            <dd class="text-right ml-3">₹{{total}}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Tax:</dt>
+                            <dd class="text-right text-danger ml-3">+ ₹{{tax}}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Delivery fee:</dt>
+                            {% if delivery_fee == 0 %}
+                                <dd class="text-right text-success ml-3">Free</dd>
+                            {% else %}
+                                <dd class="text-right text-danger ml-3">+ ₹{{delivery_fee}}</dd>
+                            {% endif %}
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Total:</dt>
+                            <dd class="text-right text-dark b ml-3"><strong>₹{{grand_total}}</strong></dd>
+                        </dl>
+                        <hr> <button id="rzp-button" class="razorpay-button">Pay Now</button>
+                        
+
+                        
+                    </div>
+                </div>
+            </aside>
+        </div>
+    
+    </div>
+</div>
+
+
+<script>
+    var grandTotalInPaise = parseInt("{{ grand_total }}" * 100, 10);
+    
+    var payment_method = 'Razorpay';
+    var order_id= '{{ order.order_number }}';
+    var options = {
+        key: "rzp_test_sgExUCA7LlCxkT",
+        amount: grandTotalInPaise,
+        currency: "INR",
+        name: "{{ order.full_name }}",
+        description: "Order payment for {{ order.order_number }}",
+        handler: function(response) {
+            console.log(response);
+            var razorpay_payment_id = response.razorpay_payment_id;
+    
+            // Send payment details to the server
+            $.ajax({
+                type: 'POST',
+                url: '{% url "payments" %}',
+                data: {
+                    order_id: {{ order.order_number }},
+                    amount: '{{ grand_total }}',
+                    transID: razorpay_payment_id,
+                    payment_method: payment_method,
+                    status: 'COMPLETED',
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function(data) {
+                    
+                    // Redirect to order_complete with order details
+                    window.location.href = '{% url 'order_complete' %}?order_number={{ order.order_number }}&transID=' + razorpay_payment_id;
+                },
+                error: function(xhr, textStatus, error) {
+                    console.error(xhr.responseText);
+                    // Handle error scenario as needed
+                }
+            });
+        }
+    };
+    
+    var rzp = new Razorpay(options);
+    
+    document.getElementById('rzp-button').onclick = function(event) {
+        event.preventDefault();
+        rzp.open();
+    };
+    
+</script>
+
+
+
+{% endblock %}

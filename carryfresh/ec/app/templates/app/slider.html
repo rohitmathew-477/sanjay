@@ -1,0 +1,72 @@
+{% load static %}
+<head>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <style>
+    @media screen and (min-width: 601px) {
+      .xyz {
+        font-size: 20px;
+      }
+
+      .cor {
+        height: 350px;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .xyz {
+        font-size: 13px;
+      }
+
+      .cor {
+        height: 200px;
+      }
+    }
+
+    /* Add padding to the container div */
+    .carousel-container {
+      padding: 20px; /* Adjust the padding as needed */
+    }
+
+    /* Increase the width and add spacing */
+    .carousel-inner {
+      width: 100%; /* Set the width as needed */
+      margin: 0 auto; /* Center the carousel */
+    }
+
+    .carousel-item {
+      padding: 10px; /* Add spacing around carousel items */
+    }
+  </style>
+</head>
+<section id="slider">
+<div class="carousel-container">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      {% for slider in sliders %}
+        <div class="carousel-item{% if forloop.first %} active{% endif %}">
+          <img class="d-block w-100 cor" src="{{ slider.images.url }}" alt="Slider Image">
+        </div>
+      {% endfor %}
+    </div>
+    
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" ariahidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" ariahidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+<script>
+  // Enable automatic sliding of the carousel
+  $('#carouselExampleIndicators').carousel({
+    interval: 3000, // Adjust the time in milliseconds (e.g., 3000 = 3 seconds)
+  });
+</script>

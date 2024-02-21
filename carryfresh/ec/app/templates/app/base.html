@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+   
+    <link rel="shortcut icon" href="{% static 'images/fav-icon.png' %}" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    
+    <title>eCarryFresh Store</title>
+  </head>
+  <body>
+    <nav class="navigation">
+      <img src="{% static 'images/fav-icon.png' %}" alt="eCarryFresh Logo">
+      <a href="{% url 'app:index' %}" class="logo">
+        <span>E</span>-CarryFresh
+      </a>
+      <ul class="menu">
+        <li><a href="{% url 'app:index' %}" class="active">Home</a></li>
+        <li class="dropdown">
+          <a href="#category">Categories<i class="fas fa-caret-down"></i></a>
+          
+          <div class="dropdown-content">
+            {% for category in links %}
+            <a href="{{category.get_url}}">{{category.category_name}}</a>
+            {% endfor %}
+          </div>
+        </li>
+        <li><a href="{% url 'app:all_products' %}">Products</a></li>
+        <li class="dropdown">
+          <a href="#">Info<i class="fas fa-caret-down"></i></a>
+          <div class="dropdown-content">
+            <a href="{% url 'app:about' %}">About</a>
+            <a href="{% url 'app:index' %}#clients">Testimonials</a>
+            <a href="{% url 'feedback' %}">Feedback</a>
+          </div>
+        </li>
+        <li><b>Welcome {% if user.id is  None %}Guest 
+          {% else %} {{user.first_name|upper}} {% endif %}!</b><br>
+          {% if user.id is not None %} 
+          <a href="{% url "dashboard" %}">Dashboard</a>{% endif %}
+      </ul>
+      <div class="right-nav">
+        <a href="{% url 'cart' %}" class="cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span>{{cart_count}}</span>
+        </a>
+        {% if user.id is None %}
+        <a href="{% url 'login' %}" class="log1">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>login</span>
+        </a>
+        {% else %}
+        <a href="{% url 'logout' %}" class="log">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>logout</span>
+      </a>
+      {% endif %}
+      
+      </div>
+    </nav>
+    <div class="content">
+
+      {% block content %}
+      
+      {% endblock %}
+      {% include "app/footer.html" %}
+  </div>
+  </body>
+</html>

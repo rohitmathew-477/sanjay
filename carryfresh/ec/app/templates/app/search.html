@@ -1,0 +1,28 @@
+
+{% load static %}
+
+      
+<section id="search-banner">
+  <img src="{% static 'images/bg-1.png' %}" class="bg-1" alt="bg" />
+  <img src="{% static 'images/bg-2.png' %}" class="bg-2" alt="bg-2" />
+  <div class="search-banner-text">
+    <h1>Order Your daily Groceries</h1>
+    <strong>#Happy Shopping</strong>
+    <form action="{% url 'app:search' %}" class="search-box" method='GET' >
+
+      <i class="fas fa-search"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search your daily groceries"
+        name="keyword"
+        required
+      />
+      <input type="submit" class="search-btn" value="Search" />
+   </form> 
+  </div>
+</section>
+
+<marquee direction="left" height="100px" style="color: #EE1D29; font-size: 20px;">
+  You will get delivery within 1 hours.Delivery is only in range 6 km. Facing difficulty while placing an order? Call +91 9572181024.
+</marquee>

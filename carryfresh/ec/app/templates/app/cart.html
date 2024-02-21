@@ -1,0 +1,112 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');body{background-color: #eeeeee;font-family: 'Open Sans',serif;font-size: 14px}.container-fluid{margin-top:70px}.card-body{-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.40rem}.img-sm{width: 80px;height: 80px}.itemside .info{padding-left: 15px;padding-right: 7px}.table-shopping-cart .price-wrap{line-height: 1.2}.table-shopping-cart .price{font-weight: bold;margin-right: 5px;display: block}.text-muted{color: #969696 !important}a{text-decoration: none !important}.card{position: relative;display: -ms-flexbox;display: flex;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0,0,0,.125);border-radius: 0px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.dlist-align{display: -webkit-box;display: -ms-flexbox;display: flex}[class*="dlist-"]{margin-bottom: 5px}.coupon{border-radius: 1px}.price{font-weight: 600;color: #212529}.btn.btn-out{outline: 1px solid #fff;outline-offset: -5px}.btn-main{border-radius: 2px;text-transform: capitalize;font-size: 15px;padding: 10px 19px;cursor: pointer;color: #fff;width: 100%}.btn-light{color: #ffffff;background-color: #F44336;border-color: #f8f9fa;font-size: 12px}.btn-light:hover{color: #ffffff;background-color: #F44336;border-color: #F44336}.btn-apply{font-size: 11px}
+        
+    </style>
+</head>
+
+
+<div class="container my-5">
+    <h1 style="text-align: center;" class="fw-bold m-5">Shopping Cart</h1>
+<!--{% static "images/apple.png" %}-->
+    <!-- Messages -->
+    <div class="container-fluid">
+        {% if not cart_items %}
+        <h2 class="text-center">Your Shopping Cart is Empty</h2>
+        <br>
+        <div class="text-center">
+            <a href="{% url 'app:all_products' %}" class="btn btn-primary">Continue Shopping</a>
+        </div>
+        {% else %}
+        <div class="row">
+            <aside class="col-lg-9">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" width="120">Quantity</th>
+                                    <th scope="col" width="120">Price</th>
+                                    <th scope="col" class="text-right d-none d-md-block" width="200"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="{{cart_item.product.images.url}}" class="img-sm"></div>
+                                            <figcaption class="info"> <a href="{{cart_item.product.get_url}}" class="title text-dark" data-abc="true">{{cart_item.product.product_name}}</a>
+                                                
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <div class="col" style="padding: 0;">
+                                            <div class="input-group input-spinner">
+                                                <div class="input-group-prepend">
+                                                    <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
+                                                </div>
+                                                <input type="text" class="form-control" value="{{cart_item.quantity}}" style="text-align: center; padding: 0;">
+                                                <div class="input-group-append">
+                                                    <a href="{% url 'add_cart' cart_item.product.id  %}" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
+                                                </div>
+                                            </div> <!-- input-group.// -->
+                                        </div> <!-- col.// -->
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap"> <var class="price">₹{{cart_item.sub_total}} </var> <small class="text-muted"> ₹{{cart_item.product.price}} Rs per {{cart_item.product.unit}} </small> </div>
+                                    </td>
+                                    <td class="text-right d-none d-md-block">  <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" class="btn btn-light" data-abc="true"> Remove</a> </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </aside>
+            <aside class="col-lg-3">
+                
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Total price:</dt>
+                            <dd class="text-right ml-3">₹{{total}}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Tax:</dt>
+                            <dd class="text-right text-danger ml-3">+ ₹{{tax}}</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Delivery fee:</dt>
+                            {% if delivery_fee == 0 %}
+                                <dd class="text-right text-success ml-3">Free</dd>
+                            {% else %}
+                                <dd class="text-right text-danger ml-3">+ ₹{{delivery_fee}}</dd>
+                            {% endif %}
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Total:</dt>
+                            <dd class="text-right text-dark b ml-3"><strong>₹{{grand_total}}</strong></dd>
+                        </dl>
+                        <hr> <a href="{% url 'checkout' %}" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Checkout </a> 
+                        <a href="{% url 'app:all_products' %}" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,77 @@
+
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  </head>
+  <section id="feedback">
+    <div class="container">
+      <div class="container-fluid">
+        {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <h3>Contact Us</h3>
+        <div class="row px-xl-5">
+          <div class="col-lg-7 mb-5">
+            <div class="contact-form bg-light p-30">
+              {% if success_message %}
+                <div class="alert alert-success" role="alert">
+                  {{ success_message }}
+                </div>
+              {% endif %}
+              <form action="{% url 'feedback' %}" method="POST" novalidate="novalidate">
+                {% csrf_token %}
+                <div class="control-group">
+                  <input type="text" class="form-control" name="name" id="name" placeholder="Your Name"
+                         required="required" data-validation-required-message="Please enter your name"/>
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="control-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                         required="required" data-validation-required-message="Please enter your email"/>
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="control-group">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
+                         required="required" data-validation-required-message="Please enter a subject"/>
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="control-group">
+                  <textarea class="form-control" rows="8" name="message" id="message" placeholder="Message"
+                            required="required"
+                            data-validation-required-message="Please enter your message"></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div>
+                  <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Send Message</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-5 mb-5">
+            <div class="bg-light p-30 mb-30">
+              <iframe style="width: 100%; height: 250px;"
+                      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15576.718441616944!2d74.9524129!3d12.5704056!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba362b089b2eae3%3A0xec17096739eb3ed2!2sCarryfresh%20Hypermarket!5e0!3m2!1sen!2sin!4v1697734578636!5m2!1sen!2sin"
+                      frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+            <div class="bg-light p-30 mb-3">
+              <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Mogral,Kasaragod,Kerala</p>
+              <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>carryfreshmogral@gmail.com</p>
+              <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+91 85588 48888</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Contact End -->
+
+{% endblock %}

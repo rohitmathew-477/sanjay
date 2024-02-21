@@ -1,0 +1,203 @@
+{% extends "app/base.html" %} 
+{% load static %}
+
+{% block content %}
+<head>
+    
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');body{background-color: #eeeeee;font-family: 'Open Sans',serif;font-size: 14px}.container-fluid{margin-top:70px}.card-body{-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.40rem}.img-sm{width: 80px;height: 80px}.itemside .info{padding-left: 15px;padding-right: 7px}.table-shopping-cart .price-wrap{line-height: 1.2}.table-shopping-cart .price{font-weight: bold;margin-right: 5px;display: block}.text-muted{color: #969696 !important}a{text-decoration: none !important}.card{position: relative;display: -ms-flexbox;display: flex;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0,0,0,.125);border-radius: 0px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.dlist-align{display: -webkit-box;display: -ms-flexbox;display: flex}[class*="dlist-"]{margin-bottom: 5px}.coupon{border-radius: 1px}.price{font-weight: 600;color: #212529}.btn.btn-out{outline: 1px solid #fff;outline-offset: -5px}.btn-main{border-radius: 2px;text-transform: capitalize;font-size: 15px;padding: 10px 19px;cursor: pointer;color: #fff;width: 100%}.btn-light{color: #ffffff;background-color: #F44336;border-color: #f8f9fa;font-size: 12px}.btn-light:hover{color: #ffffff;background-color: #F44336;border-color: #F44336}.btn-apply{font-size: 11px}
+      .space{
+        margin-top: 50px;
+        margin-bottom:50px;
+      }
+      .steps .step {
+        display: block;
+        width: 100%;
+        margin-bottom: 35px;
+        text-align: center
+    }
+    
+    .steps .step .step-icon-wrap {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 80px;
+        text-align: center
+    }
+    
+    .steps .step .step-icon-wrap::before,
+    .steps .step .step-icon-wrap::after {
+        display: block;
+        position: absolute;
+        top: 50%;
+        width: 50%;
+        height: 3px;
+        margin-top: -1px;
+        background-color: #e1e7ec;
+        content: '';
+        z-index: 1
+    }
+    
+    .steps .step .step-icon-wrap::before {
+        left: 0
+    }
+    
+    .steps .step .step-icon-wrap::after {
+        right: 0
+    }
+    
+    .steps .step .step-icon {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border: 1px solid #e1e7ec;
+        border-radius: 50%;
+        background-color: #f5f5f5;
+        color: #374250;
+        font-size: 38px;
+        line-height: 81px;
+        z-index: 5;
+        
+    }
+    
+    .steps .step .step-title {
+        margin-top: 16px;
+        margin-bottom: 0;
+        color: #606975;
+        font-size: 14px;
+        font-weight: 500
+    }
+    
+    .steps .step:first-child .step-icon-wrap::before {
+        display: none
+    }
+    
+    .steps .step:last-child .step-icon-wrap::after {
+        display: none
+    }
+    
+    .steps .step.completed .step-icon-wrap::before,
+    .steps .step.completed .step-icon-wrap::after {
+        background-color: #0da9ef
+    }
+    
+    .steps .step.completed .step-icon {
+        border-color: #0da9ef;
+        background-color: #0da9ef;
+        color: #fff;
+        
+    }
+    
+    @media (max-width: 576px) {
+        .flex-sm-nowrap .step .step-icon-wrap::before,
+        .flex-sm-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .flex-md-nowrap .step .step-icon-wrap::before,
+        .flex-md-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+    
+    @media (max-width: 991px) {
+        .flex-lg-nowrap .step .step-icon-wrap::before,
+        .flex-lg-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+    
+    @media (max-width: 1200px) {
+        .flex-xl-nowrap .step .step-icon-wrap::before,
+        .flex-xl-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+    
+    .bg-faded, .bg-secondary {
+        background-color: #f5f5f5 !important;
+    }
+    
+  </style>
+  </head>
+  
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+<div class="space">
+    <div class="container">
+        <div class="row">
+        {% include "app/dashboard_sidebar.html" %}
+        <main class="col-md-9">
+           
+            
+           
+                <div class="container padding-bottom-3x mb-1">
+                    <div class="card mb-3">
+                      <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Tracking Order No - </span><span class="text-medium"> {{order.order_number}} </span></div>
+                      <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                       
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Status:</span>{% if order.is_delevered %}
+                            Delivered
+                        {% elif order.is_out_to_delevery %}
+                            Out for Delivery
+                        {% elif order.is_processing %}
+                            Processing
+                        {% elif order.is_ordered %}
+                            Ordered
+                        {% else %}
+                            Unknown Status
+                        {% endif %}</div>
+                        <div class="w-100 text-center py-1 px-2"><span class="text-medium">Created Date:</span> {{order.created_at}}</div>
+                      </div>
+                      <div class="card-body">
+                        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                            <div class="step {% if order.is_ordered %}completed{% endif %}">
+                            <div class="step-icon-wrap">
+                              <div class="step-icon"><i class="pe-7s-cart"></i></div>
+                            </div>
+                            <h4 class="step-title">Confirmed Order</h4>
+                          </div>
+                          <div class="step {% if order.is_processing %}completed{% endif %}">
+                            <div class="step-icon-wrap">
+                              <div class="step-icon"><i class="pe-7s-config"></i></div>
+                            </div>
+                            <h4 class="step-title">Processing Order</h4>
+                          </div>
+                          
+                          <div class="step {% if order.is_out_to_delevery %}completed{% endif %}">
+                            <div class="step-icon-wrap">
+                              <div class="step-icon"><i class="pe-7s-car"></i></div>
+                            </div>
+                            <h4 class="step-title">Product Dispatched</h4>
+                          </div>
+                          <div class="step {% if order.is_delevered %}completed{% endif %}">
+                            <div class="step-icon-wrap">
+                              <div class="step-icon"><i class="pe-7s-home"></i></div>
+                            </div>
+                            <h4 class="step-title">Product Delivered</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+                      
+                        <div class="text-left text-sm-right">
+                            <a class="btn btn-outline-primary btn-rounded btn-sm" href="{% url 'order_detail' order.order_number %}">View Order Details</a></div>
+                    </div>
+                  </div>
+                
+    </div>
+</div>
+    
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+  {% endblock %}

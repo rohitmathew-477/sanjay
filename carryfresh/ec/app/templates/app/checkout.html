@@ -1,0 +1,141 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');body{background-color: #eeeeee;font-family: 'Open Sans',serif;font-size: 14px}.container-fluid{margin-top:70px}.card-body{-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.40rem}.img-sm{width: 80px;height: 80px}.itemside .info{padding-left: 15px;padding-right: 7px}.table-shopping-cart .price-wrap{line-height: 1.2}.table-shopping-cart .price{font-weight: bold;margin-right: 5px;display: block}.text-muted{color: #969696 !important}a{text-decoration: none !important}.card{position: relative;display: -ms-flexbox;display: flex;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0,0,0,.125);border-radius: 0px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.dlist-align{display: -webkit-box;display: -ms-flexbox;display: flex}[class*="dlist-"]{margin-bottom: 5px}.coupon{border-radius: 1px}.price{font-weight: 600;color: #212529}.btn.btn-out{outline: 1px solid #fff;outline-offset: -5px}.btn-main{border-radius: 2px;text-transform: capitalize;font-size: 15px;padding: 10px 19px;cursor: pointer;color: #fff;width: 100%}.btn-light{color: #ffffff;background-color: #F44336;border-color: #f8f9fa;font-size: 12px}.btn-light:hover{color: #ffffff;background-color: #F44336;border-color: #F44336}.btn-apply{font-size: 11px}
+        
+    </style>
+</head>
+
+
+<div class="container my-5">
+    <h1 style="text-align: center;" class="fw-bold m-5">Checkout</h1>
+<!--{% static "images/apple.png" %}-->
+    <!-- Messages -->
+    <div class="container-fluid">
+        
+        <div class="row">
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-body"> <h4 class="card-title mb-4">Billing Address</h4>
+                            <form action="{% url 'place_order' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-row">
+                            <div class="col form-group">
+                            <label for="">First Name</label>
+                            <input type="text" name="first_name" class="form-control" value="{{user.first_name}}" required>
+                            </div>
+                            <div class="col form-group">
+                            <label for="">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" value="{{user.last_name}}" required>
+                            </div>
+                            </div>
+                            <div class="form-row">
+                            <div class="col form-group">
+                            <label for="">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                            </div> <div class="col form-group">
+                            <label for="">Phone Number</label> <input type="text" name="phone" class="form-control" value="{{user.phone_number}}" required>
+                            </div>
+                            </div>
+                            <div class="form-row">
+                            <div class="col form-group">
+                            <label for="">Address Line 1</label>
+                            <input type="text" name="address_line_1" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                            <label for="">Address Line 2</label>
+                            <input type="text" name="address_line_2" class="form-control">
+                            </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">Town</label>
+                                    <select name="town" class="form-control" required>
+                                        <option value="Mogral">Mogral</option>
+                                        <option value="Mogral Putthur">Mogral Putthur</option>
+                                        <option value="Peral">Peral</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">City</label>
+                                    <input type="text" name="city" class="form-control" value="Kasaragod" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">State</label>
+                                    <input type="text" name="state" class="form-control" value="Kerala" required>
+                                </div>
+                            </div>
+                                <div class="form-row">
+                                    <div class="col form-group">
+                                    <label for="">Order Notes</label>
+                                    <textarea name="order_note" row='2' class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                    </div>
+                </div>
+            </aside>
+            <aside class="col-lg-6">
+                
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-shopping-cart">
+                                <thead class="text-muted">
+                                    <tr class="small text-uppercase">
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cart_item in cart_items %}
+                                    <tr>
+                                        <td>
+                                            <figure class="itemside align-items-center">
+                                                <div class="aside"><img src="{{cart_item.product.images.url}}" class="img-sm"></div>
+                                                <figcaption class="info"> <a href="{{cart_item.product.get_url}}" class="title text-dark" data-abc="true">{{cart_item.product.product_name}}</a>
+                                                    
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            {{cart_item.quantity}}
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap"> <var class="price">₹{{cart_item.sub_total}} </var> <small class="text-muted"> ₹{{cart_item.product.price}} each </small> </div>
+                                        </td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>   
+                        <button type="submit" class="btn btn-out btn-primary btn-square btn-main">Place Order</button>
+                        <a href="{% url 'app:all_products' %}" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+                    </form>
+                    </div>
+
+                </div>
+            
+            </aside>
+        </div>
+        
+    </div>
+</div>
+
+
+{% endblock %}
